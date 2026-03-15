@@ -12,7 +12,7 @@ st.set_page_config(
     menu_items=None
 )
 
-# Hide Streamlit branding with custom CSS - ULTRA aggressive
+# Hide Streamlit branding with custom CSS + JavaScript - MAXIMUM aggressive
 st.markdown("""
 <style>
     /* Hide main menu and three dots */
@@ -36,7 +36,7 @@ st.markdown("""
     /* Hide mode toolbar */
     [data-testid="stModeToolbar"] {display: none !important;}
     
-    /* Hide bottom bar - hosted by, created by */
+    /* Hide bottom bar - hosted by, created by - MAXIMUM aggressive */
     .stBottomBar {display: none !important;}
     [data-testid="stBottomBar"] {display: none !important;}
     [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
@@ -45,10 +45,15 @@ st.markdown("""
     footer:after {display: none !important;}
     footer:before {display: none !important;}
     
-    /* Hide specific footer text - hosted by, created by */
+    /* Hide specific footer text - hosted by, created by - ULTRA aggressive */
     [data-testid="stFooterContent"] {display: none !important;}
     .stFooterContent {display: none !important;}
     div[class*="st-"] > footer {display: none !important;}
+    
+    /* Hide footer links specifically */
+    [data-testid="stFooter"] a {display: none !important;}
+    [data-testid="stFooter"] span {display: none !important;}
+    [data-testid="stFooter"] div {display: none !important;}
     
     /* Hide hamburger menu in sidebar */
     [data-testid="stSidebarUserContent"] {display: none !important;}
@@ -59,11 +64,6 @@ st.markdown("""
     /* Force hide everything at bottom */
     .view-only-container {display: none !important;}
     [data-testid="stViewOnlyBanner"] {display: none !important;}
-    
-    /* Additional hide rules for any streamlit elements */
-    div[data-testid="stToolbar"] * {display: none !important;}
-    div[data-testid="stFooter"] * {display: none !important;}
-    div[data-testid="stHeader"] * {display: none !important;}
     
     /* Hide top right elements */
     [data-testid="stTopRight"] {display: none !important;}
@@ -85,7 +85,67 @@ st.markdown("""
     /* Hide all data-testid elements that might be streamlit branding */
     [data-testid="stStatus"] {display: none !important;}
     [data-testid="stApp"] {border: none !important;}
+    
+    /* Additional footer kill rules */
+    .stAppDeployButton {display: none !important;}
+    [data-testid="stAppDeployButton"] {display: none !important;}
+    
+    /* Hide any anchor/link in footer area */
+    [data-testid="stFooter"] *, footer * {display: none !important;}
+    
+    /* Hide streamlit cloud branding specifically */
+    [class*="streamlit"] [class*="footer"] {display: none !important;}
+    [class*="StreamlitCloud"] {display: none !important;}
+    
+    /* Hide any element with aria-label containing streamlit */
+    [aria-label*="Streamlit"] {display: none !important;}
+    [aria-label*="streamlit"] {display: none !important;}
+    
+    /* Target specific known classes for hosted by / created by */
+    .st-afkvqh {display: none !important;}
+    .st-bkvqj {display: none !important;}
+    [data-testid="stFooterContainer"] {display: none !important;}
 </style>
+
+<script>
+(function() {
+    function hideBranding() {
+        var allElements = document.querySelectorAll('*');
+        allElements.forEach(function(el) {
+            var text = el.textContent.toLowerCase();
+            if (text.includes('hosted by') || text.includes('created by')) {
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+            }
+        });
+        
+        var selectors = [
+            '[data-testid="stFooter"]',
+            '[data-testid="stFooterContent"]',
+            '[data-testid="stBottomBar"]',
+            '.stFooter',
+            '.stFooterContent',
+            'footer',
+            '.stDeployButton',
+            '[data-testid="stDeployButton"]'
+        ];
+        
+        selectors.forEach(function(sel) {
+            var els = document.querySelectorAll(sel);
+            els.forEach(function(e) {
+                e.style.display = 'none';
+                e.style.visibility = 'hidden';
+            });
+        });
+    }
+    
+    hideBranding();
+    setInterval(hideBranding, 500);
+    
+    var observer = new MutationObserver(hideBranding);
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 """, unsafe_allow_html=True)
 
 # GDPR Header
