@@ -12,35 +12,64 @@ st.set_page_config(
     menu_items=None
 )
 
-# Hide Streamlit branding with custom CSS - comprehensive styles
+# Hide Streamlit branding with custom CSS - ULTRA aggressive
 st.markdown("""
 <style>
-    /* Hide main menu */
-    #MainMenu {visibility: hidden !important;}
+    /* Hide main menu and three dots */
+    #MainMenu {visibility: hidden !important; display: none !important;}
+    [data-testid="stMainMenu"] {visibility: hidden !important; display: none !important;}
     
-    /* Hide footer in all ways possible */
-    footer {visibility: hidden !important;}
-    footer:after {display: none !important;}
-    [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
-    .stFooter {visibility: hidden !important; display: none !important;}
-    
-    /* Hide deploy button */
-    .stDeployButton {display: none !important;}
-    [data-testid="stDeployButton"] {display: none !important;}
-    
-    /* Hide toolbar */
-    header {visibility: hidden !important;}
+    /* Hide header toolbar with three dots */
+    header {visibility: hidden !important; display: none !important;}
+    [data-testid="stHeader"] {visibility: hidden !important; display: none !important;}
+    .stHeader {visibility: hidden !important; display: none !important;}
     [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
     .stToolbar {visibility: hidden !important; display: none !important;}
+    div[data-testid="stToolbar"] {display: none !important;}
+    
+    /* Hide deploy button and GitHub fork badge */
+    .stDeployButton {display: none !important;}
+    [data-testid="stDeployButton"] {display: none !important;}
+    [data-testid="stActionToolbar"] {display: none !important;}
+    [data-testid="stAppActionToolbar"] {display: none !important;}
     
     /* Hide mode toolbar */
     [data-testid="stModeToolbar"] {display: none !important;}
     
-    /* Hide app builder badge */
-    [data-testid="stAppActionToolbar"] {display: none !important;}
-    
-    /* Hide bottom bar */
+    /* Hide bottom bar - hosted by, created by */
     .stBottomBar {display: none !important;}
+    [data-testid="stBottomBar"] {display: none !important;}
+    [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
+    .stFooter {visibility: hidden !important; display: none !important;}
+    footer {visibility: hidden !important; display: none !important;}
+    footer:after {display: none !important;}
+    footer:before {display: none !important;}
+    
+    /* Hide specific footer text - hosted by, created by */
+    [data-testid="stFooterContent"] {display: none !important;}
+    .stFooterContent {display: none !important;}
+    div[class*="st-"] > footer {display: none !important;}
+    
+    /* Hide hamburger menu in sidebar */
+    [data-testid="stSidebarUserContent"] {display: none !important;}
+    
+    /* Hide sidebar completely if not needed */
+    [data-testid="stSidebar"] {display: none !important;}
+    
+    /* Force hide everything at bottom */
+    .view-only-container {display: none !important;}
+    [data-testid="stViewOnlyBanner"] {display: none !important;}
+    
+    /* Additional hide rules for any streamlit elements */
+    div[data-testid="stToolbar"] * {display: none !important;}
+    div[data-testid="stFooter"] * {display: none !important;}
+    div[data-testid="stHeader"] * {display: none !important;}
+    
+    /* Hide top right elements */
+    [data-testid="stTopRight"] {display: none !important;}
+    
+    /* Hide any badge or button */
+    [data-testid="stBadge"] {display: none !important;}
     
     /* Remove any remaining padding at bottom */
     [data-testid="stVerticalBlock"] > div:last-child {
@@ -48,20 +77,14 @@ st.markdown("""
         padding-bottom: 0 !important;
     }
     
-    /* Hide hamburger menu */
-    [data-testid="stSidebarUserContent"] {display: none !important;}
-    
-    /* Force hide everything at bottom */
-    .view-only-container {display: none !important;}
-    
-    /* Additional hide rules for any streamlit elements */
-    div[data-testid="stToolbar"] * {display: none !important;}
-    div[data-testid="stFooter"] * {display: none !important;}
-    
     /* Clean up main container */
     [data-testid="stMainBlockContainer"] {
         padding-bottom: 10px !important;
     }
+    
+    /* Hide all data-testid elements that might be streamlit branding */
+    [data-testid="stStatus"] {display: none !important;}
+    [data-testid="stApp"] {border: none !important;}
 </style>
 """, unsafe_allow_html=True)
 
