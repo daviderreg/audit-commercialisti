@@ -8,8 +8,29 @@ from datetime import datetime
 st.set_page_config(
     page_title="Confronto Fatture ed Estratto Conto",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
+    menu_items=None
 )
+
+# Hide Streamlit branding with custom CSS
+st.markdown("""
+<style>
+    /* Hide footer */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display: none;}
+    header {visibility: hidden;}
+    
+    /* Hide deploy button */
+    [data-testid="stDeployButton"] {display: none;}
+    
+    /* Hide toolbar */
+    [data-testid="stToolbar"] {visibility: hidden;}
+    
+    /* Hide footer completely */
+    [data-testid="stFooter"] {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
 
 # GDPR Header
 st.markdown("""
