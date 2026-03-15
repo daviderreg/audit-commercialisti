@@ -12,23 +12,56 @@ st.set_page_config(
     menu_items=None
 )
 
-# Hide Streamlit branding with custom CSS
+# Hide Streamlit branding with custom CSS - comprehensive styles
 st.markdown("""
 <style>
-    /* Hide footer */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    .stDeployButton {display: none;}
-    header {visibility: hidden;}
+    /* Hide main menu */
+    #MainMenu {visibility: hidden !important;}
+    
+    /* Hide footer in all ways possible */
+    footer {visibility: hidden !important;}
+    footer:after {display: none !important;}
+    [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
+    .stFooter {visibility: hidden !important; display: none !important;}
     
     /* Hide deploy button */
-    [data-testid="stDeployButton"] {display: none;}
+    .stDeployButton {display: none !important;}
+    [data-testid="stDeployButton"] {display: none !important;}
     
     /* Hide toolbar */
-    [data-testid="stToolbar"] {visibility: hidden;}
+    header {visibility: hidden !important;}
+    [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
+    .stToolbar {visibility: hidden !important; display: none !important;}
     
-    /* Hide footer completely */
-    [data-testid="stFooter"] {visibility: hidden;}
+    /* Hide mode toolbar */
+    [data-testid="stModeToolbar"] {display: none !important;}
+    
+    /* Hide app builder badge */
+    [data-testid="stAppActionToolbar"] {display: none !important;}
+    
+    /* Hide bottom bar */
+    .stBottomBar {display: none !important;}
+    
+    /* Remove any remaining padding at bottom */
+    [data-testid="stVerticalBlock"] > div:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    /* Hide hamburger menu */
+    [data-testid="stSidebarUserContent"] {display: none !important;}
+    
+    /* Force hide everything at bottom */
+    .view-only-container {display: none !important;}
+    
+    /* Additional hide rules for any streamlit elements */
+    div[data-testid="stToolbar"] * {display: none !important;}
+    div[data-testid="stFooter"] * {display: none !important;}
+    
+    /* Clean up main container */
+    [data-testid="stMainBlockContainer"] {
+        padding-bottom: 10px !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
