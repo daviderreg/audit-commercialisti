@@ -12,212 +12,202 @@ st.set_page_config(
     menu_items=None
 )
 
-# Hide Streamlit branding with custom CSS + JavaScript - EXTREME aggressive
+# Hide Streamlit branding with custom CSS + JavaScript - ULTIMATE aggressive
 st.markdown("""
 <style>
-    /* Hide main menu and three dots - EXTREME aggressive */
+    /* Hide ALL elements at bottom of page - footer area */
+    [data-testid="stBottom"] {display: none !important; visibility: hidden !important; height: 0 !important;}
+    .stBottom {display: none !important; visibility: hidden !important; height: 0 !important;}
+    
+    /* Hide footer by all possible selectors */
+    footer {display: none !important; visibility: hidden !important; height: 0 !important;}
+    [data-testid="stFooter"] {display: none !important; visibility: hidden !important; height: 0 !important;}
+    [data-testid="stFooterContainer"] {display: none !important; visibility: hidden !important; height: 0 !important;}
+    [data-testid="stFooterContent"] {display: none !important; visibility: hidden !important; height: 0 !important;}
+    [data-testid="stFooterSection"] {display: none !important; visibility: hidden !important; height: 0 !important;}
+    .stFooter {display: none !important; visibility: hidden !important; height: 0 !important;}
+    .stFooterContainer {display: none !important; visibility: hidden !important; height: 0 !important;}
+    .stFooterContent {display: none !important; visibility: hidden !important; height: 0 !important;}
+    
+    /* Hide bottom bar */
+    [data-testid="stBottomBar"] {display: none !important;}
+    .stBottomBar {display: none !important;}
+    [data-testid="stBottomSection"] {display: none !important;}
+    
+    /* Hide Streamlit Cloud specific elements */
+    [class*="StreamlitCloud"] {display: none !important;}
+    [class*="streamlit-cloud"] {display: none !important;}
+    [class*="StyledAppFooter"] {display: none !important;}
+    [class*="AppFooter"] {display: none !important;}
+    [class*="Footer-"] {display: none !important;}
+    [class*="footer-"] {display: none !important;}
+    
+    /* Hide by aria-label and title */
+    [aria-label*="hosted"] {display: none !important;}
+    [aria-label*="created"] {display: none !important;}
+    [aria-label*="Hosted"] {display: none !important;}
+    [aria-label*="Created"] {display: none !important;}
+    [title*="hosted"] {display: none !important;}
+    [title*="created"] {display: none !important;}
+    [title*="Hosted"] {display: none !important;}
+    [title*="Created"] {display: none !important;}
+    
+    /* Hide main menu and three dots */
     #MainMenu {visibility: hidden !important; display: none !important;}
     [data-testid="stMainMenu"] {visibility: hidden !important; display: none !important;}
     button[aria-label="Main menu"] {display: none !important;}
+    button[aria-label="main menu"] {display: none !important;}
     [title="Main menu"] {display: none !important;}
     
-    /* Hide header toolbar with three dots - EXTREME aggressive */
+    /* Hide header toolbar */
     header {visibility: hidden !important; display: none !important;}
     [data-testid="stHeader"] {visibility: hidden !important; display: none !important;}
-    .stHeader {visibility: hidden !important; display: none !important;}
     [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
-    .stToolbar {visibility: hidden !important; display: none !important;}
-    div[data-testid="stToolbar"] {display: none !important;}
-    [data-testid="stToolbar"] {display: none !important;}
-    .stToolbar [role="button"] {display: none !important;}
-    button[data-testid="stToolbar"] {display: none !important;}
     
-    /* Hide deploy button and GitHub fork badge */
+    /* Hide deploy button */
     .stDeployButton {display: none !important;}
     [data-testid="stDeployButton"] {display: none !important;}
-    [data-testid="stActionToolbar"] {display: none !important;}
-    [data-testid="stAppActionToolbar"] {display: none !important;}
     
-    /* Hide mode toolbar */
-    [data-testid="stModeToolbar"] {display: none !important;}
-    
-    /* Hide bottom bar - hosted by, created by - EXTREME aggressive */
-    .stBottomBar {display: none !important;}
-    [data-testid="stBottomBar"] {display: none !important;}
-    [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
-    .stFooter {visibility: hidden !important; display: none !important;}
-    footer {visibility: hidden !important; display: none !important;}
-    footer:after {display: none !important;}
-    footer:before {display: none !important;}
-    
-    /* Hide specific footer text - hosted by, created by - EXTREME aggressive */
-    [data-testid="stFooterContent"] {display: none !important;}
-    .stFooterContent {display: none !important;}
-    div[class*="st-"] > footer {display: none !important;}
-    
-    /* Hide footer links specifically */
-    [data-testid="stFooter"] a {display: none !important;}
-    [data-testid="stFooter"] span {display: none !important;}
-    [data-testid="stFooter"] div {display: none !important;}
-    
-    /* Hide hamburger menu in sidebar */
+    /* Hide sidebar */
+    [data-testid="stSidebar"] {display: none !important;}
     [data-testid="stSidebarUserContent"] {display: none !important;}
     
-    /* Hide sidebar completely if not needed */
-    [data-testid="stSidebar"] {display: none !important;}
-    
-    /* Force hide everything at bottom */
-    .view-only-container {display: none !important;}
-    [data-testid="stViewOnlyBanner"] {display: none !important;}
-    
-    /* Hide top right elements */
-    [data-testid="stTopRight"] {display: none !important;}
-    
-    /* Hide any badge or button */
-    [data-testid="stBadge"] {display: none !important;}
-    
-    /* Remove any remaining padding at bottom */
+    /* Remove padding at bottom */
     [data-testid="stVerticalBlock"] > div:last-child {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
     }
-    
-    /* Clean up main container */
     [data-testid="stMainBlockContainer"] {
-        padding-bottom: 10px !important;
+        padding-bottom: 0 !important;
     }
     
-    /* Hide all data-testid elements that might be streamlit branding */
-    [data-testid="stStatus"] {display: none !important;}
-    [data-testid="stApp"] {border: none !important;}
-    
-    /* Additional footer kill rules */
-    .stAppDeployButton {display: none !important;}
-    [data-testid="stAppDeployButton"] {display: none !important;}
-    
-    /* Hide any anchor/link in footer area */
-    [data-testid="stFooter"] *, footer * {display: none !important;}
-    
-    /* Hide streamlit cloud branding specifically */
-    [class*="streamlit"] [class*="footer"] {display: none !important;}
-    [class*="StreamlitCloud"] {display: none !important;}
-    
-    /* Hide any element with aria-label containing streamlit */
-    [aria-label*="Streamlit"] {display: none !important;}
-    [aria-label*="streamlit"] {display: none !important;}
-    
-    /* Target specific known classes for hosted by / created by */
-    .st-afkvqh {display: none !important;}
-    .st-bkvqj {display: none !important;}
-    [data-testid="stFooterContainer"] {display: none !important;}
-    
-    /* Hide any span containing text */
-    span:contains("Hosted"), span:contains("hosted"), span:contains("Created"), span:contains("created") {display: none !important;}
-    
-    /* Hide by data attribute */
-    [data-testid*="footer"] {display: none !important;}
-    [data-testid*="bottom"] {display: none !important;}
-    [data-testid*="deploy"] {display: none !important;}
-    [data-testid*="menu"] {display: none !important;}
-    
-    /* Hide specific Streamlit Cloud footer structure */
-    div[class*="StyledAppView"] footer {display: none !important;}
-    div[class*="StyledAppView"] [class*="Footer"] {display: none !important;}
-    
-    /* Nuclear option: hide last child of body that might contain branding */
-    body > div:last-child {display: none !important;}
-    
-    /* Hide any element containing specific text via CSS */
-    [class*="footer"] {display: none !important;}
-    [class*="Footer"] {display: none !important;}
-    [class*="bottom"] {display: none !important;}
-    [class*="Bottom"] {display: none !important;}
-    [class*="deploy"] {display: none !important;}
-    [class*="Deploy"] {display: none !important;}
+    /* Nuclear: hide any div with footer-like class names */
+    div[class*="Footer"] {display: none !important;}
+    div[class*="footer"] {display: none !important;}
+    div[class*="Bottom"] {display: none !important;}
+    div[class*="bottom"] {display: none !important;}
 </style>
 
 <script>
 (function() {
     function hideBranding() {
-        // Hide by text content - more aggressive
+        // Get ALL elements
         var allElements = document.querySelectorAll('*');
+        
         allElements.forEach(function(el) {
-            var text = el.textContent.toLowerCase();
+            var text = el.textContent || '';
+            var textLower = text.toLowerCase();
             var attrValue = el.getAttribute('aria-label') || '';
             var titleValue = el.getAttribute('title') || '';
+            var className = el.className || '';
             
-            if (text.includes('hosted by') || text.includes('created by') || 
-                text.includes('hosted') || text.includes('created') ||
-                attrValue.toLowerCase().includes('hosted') || attrValue.toLowerCase().includes('created') ||
-                titleValue.toLowerCase().includes('hosted') || titleValue.toLowerCase().includes('created')) {
+            // Check for branding text
+            if (textLower.includes('hosted by') || textLower.includes('created by') || 
+                textLower.includes('hosted') || textLower.includes('created') ||
+                textLower.includes('streamlit') || textLower.includes('daviderreg')) {
+                // Nuke the element and all parents
+                var current = el;
+                while (current && current !== document.body && current !== document.documentElement) {
+                    current.style.display = 'none';
+                    current.style.visibility = 'hidden';
+                    current.style.opacity = '0';
+                    current.style.height = '0';
+                    current.style.width = '0';
+                    current.style.overflow = 'hidden';
+                    current.style.position = 'absolute';
+                    current = current.parentElement;
+                }
+            }
+            
+            // Check attributes
+            if (attrValue.toLowerCase().includes('hosted') || attrValue.toLowerCase().includes('created') ||
+                titleValue.toLowerCase().includes('hosted') || titleValue.toLowerCase().includes('created') ||
+                className.toLowerCase().includes('footer') || className.toLowerCase().includes('bottom')) {
                 el.style.display = 'none';
                 el.style.visibility = 'hidden';
                 el.style.opacity = '0';
                 el.style.height = '0';
                 el.style.width = '0';
-                el.style.overflow = 'hidden';
             }
             
-            // Also hide buttons with menu in aria-label
-            if (el.tagName === 'BUTTON' && (attrValue.toLowerCase().includes('menu') || titleValue.toLowerCase().includes('menu'))) {
-                el.style.display = 'none';
-            }
-        });
-        
-        // Hide by selectors - more aggressive
-        var selectors = [
-            '[data-testid="stFooter"]',
-            '[data-testid="stFooterContent"]',
-            '[data-testid="stBottomBar"]',
-            '.stFooter',
-            '.stFooterContent',
-            'footer',
-            '.stDeployButton',
-            '[data-testid="stDeployButton"]',
-            '[data-testid="stMainMenu"]',
-            '#MainMenu',
-            '[data-testid="stToolbar"]',
-            '[aria-label*="menu"]',
-            '[title*="menu"]',
-            '[aria-label*="Hosted"]',
-            '[aria-label*="Created"]',
-            '[title*="Hosted"]',
-            '[title*="Created"]'
-        ];
-        
-        selectors.forEach(function(sel) {
-            var els = document.querySelectorAll(sel);
-            els.forEach(function(e) {
-                e.style.display = 'none';
-                e.style.visibility = 'hidden';
-                e.style.opacity = '0';
-                e.style.height = '0';
-                e.style.width = '0';
-            });
-        });
-        
-        // Hide parent elements of branding text
-        allElements.forEach(function(el) {
-            var text = el.textContent.toLowerCase();
-            if (text.includes('hosted by') || text.includes('created by')) {
-                // Hide parent chain
-                var parent = el.parentElement;
-                while (parent) {
-                    parent.style.display = 'none';
-                    parent = parent.parentElement;
+            // Hide menu buttons
+            if (el.tagName === 'BUTTON') {
+                if (attrValue.toLowerCase().includes('menu') || titleValue.toLowerCase().includes('menu')) {
+                    el.style.display = 'none';
                 }
             }
         });
+        
+        // Also hide by specific selectors
+        var selectors = [
+            '[data-testid="stFooter"]',
+            '[data-testid="stFooterContainer"]',
+            '[data-testid="stFooterContent"]',
+            '[data-testid="stFooterSection"]',
+            '[data-testid="stBottom"]',
+            '[data-testid="stBottomBar"]',
+            '[data-testid="stBottomSection"]',
+            '.stFooter',
+            '.stFooterContainer',
+            '.stFooterContent',
+            '.stBottomBar',
+            'footer',
+            '#MainMenu',
+            '[data-testid="stMainMenu"]',
+            '[data-testid="stDeployButton"]',
+            '[aria-label*="hosted"]',
+            '[aria-label*="created"]',
+            '[title*="hosted"]',
+            '[title*="created"]'
+        ];
+        
+        selectors.forEach(function(sel) {
+            try {
+                var els = document.querySelectorAll(sel);
+                els.forEach(function(e) {
+                    e.style.display = 'none';
+                    e.style.visibility = 'hidden';
+                    e.style.opacity = '0';
+                    e.style.height = '0';
+                    e.style.width = '0';
+                });
+            } catch(err) {}
+        });
+        
+        // Hide Streamlit Cloud footer specifically
+        var appView = document.querySelector('[class*="StyledAppView"]');
+        if (appView) {
+            var footerElements = appView.querySelectorAll('footer, [class*="Footer"], [class*="footer"]');
+            footerElements.forEach(function(e) {
+                e.style.display = 'none';
+                e.style.visibility = 'hidden';
+            });
+        }
     }
     
+    // Run immediately
     hideBranding();
-    setInterval(hideBranding, 100);
     
-    var observer = new MutationObserver(hideBranding);
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
+    // Run frequently
+    setInterval(hideBranding, 50);
     
-    // Also observe document head for style changes
-    observer.observe(document.head, { childList: true, subtree: true });
+    // Watch for changes
+    var observer = new MutationObserver(function(mutations) {
+        hideBranding();
+    });
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true, 
+        characterData: true,
+        attributeOldValue: true,
+        characterDataOldValue: true
+    });
+    
+    // Run on DOMContentLoaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', hideBranding);
+    }
 })();
 </script>
 """, unsafe_allow_html=True)
