@@ -120,6 +120,44 @@ st.markdown("""
     footer img {display: none !important;}
     [class*="Footer"] img {display: none !important;}
     [class*="Bottom"] img {display: none !important;}
+    
+    /* INVISIBLE MODE - make footer area transparent */
+    [class*="AppView"] {background: transparent !important;}
+    [class*="MainView"] {background: transparent !important;}
+    
+    /* Hide the bottom-right corner specifically */
+    [class*="bottom"] [class*="right"] {display: none !important;}
+    [class*="Bottom"] [class*="Right"] {display: none !important;}
+    [data-testid="stBottom"] [class*="right"] {display: none !important;}
+    
+    /* Hide span/div containing "by" text pattern */
+    span:contains("by") {display: none !important;}
+    div:contains("by") {display: none !important;}
+    
+    /* Target text nodes with created/hosted */
+    * {
+        font-size: 0px;
+    }
+    *::after {
+        content: none !important;
+    }
+    *::before {
+        content: none !important;
+    }
+    
+    /* Reset font-size for main content only */
+    [data-testid="stVerticalBlock"] *,
+    [data-testid="stWidget"] *,
+    .stDataFrame *,
+    .stMarkdown *,
+    .stTitle *,
+    .stSubheader *,
+    .stButton *,
+    .stSelectbox *,
+    .stFileUploader *,
+    .stExpander * {
+        font-size: 16px !important;
+    }
 </style>
 
 <script>
