@@ -181,6 +181,83 @@ st.markdown("""
     [class*="FooterText"] {display: none !important;}
     [class*="creatorInfo"] {display: none !important;}
     [class*="CreatorInfo"] {display: none !important;}
+    
+    /* TARGET BADGES/ANCHORS - the clickable badges */
+    a[href*="streamlit"] {display: none !important; visibility: hidden !important;}
+    a[href*="streamlit.cloud"] {display: none !important; visibility: hidden !important;}
+    a[href*="Hosted"] {display: none !important; visibility: hidden !important;}
+    a[href*="Created"] {display: none !important; visibility: hidden !important;}
+    a[class*="badge"] {display: none !important; visibility: hidden !important;}
+    a[class*="Badge"] {display: none !important; visibility: hidden !important;}
+    a[class*="_badge"] {display: none !important; visibility: hidden !important;}
+    a[class*="link"] {display: none !important; visibility: hidden !important;}
+    
+    /* Hide anchor by aria-label */
+    a[aria-label*="Hosted"] {display: none !important;}
+    a[aria-label*="Created"] {display: none !important;}
+    a[aria-label*="hosted"] {display: none !important;}
+    a[aria-label*="created"] {display: none !important;}
+    
+    /* Hide span inside anchor */
+    a span {display: none !important;}
+    a div {display: none !important;}
+    a img {display: none !important;}
+    a svg {display: none !important;}
+    
+    /* Hide badge container */
+    [class*="badge-container"] {display: none !important;}
+    [class*="BadgeContainer"] {display: none !important;}
+    [class*="badges"] {display: none !important;}
+    [class*="Badges"] {display: none !important;}
+    
+    /* Hide footer actions area */
+    [class*="footerActions"] {display: none !important;}
+    [class*="FooterActions"] {display: none !important;}
+    [class*="footer-action"] {display: none !important;}
+    
+    /* Hide by data-testid for badge elements */
+    [data-testid*="badge"] {display: none !important;}
+    [data-testid*="Badge"] {display: none !important;}
+    [data-testid*="link"] {display: none !important;}
+    
+    /* Nuclear for any link in bottom area */
+    [data-testid="stBottom"] a {display: none !important;}
+    footer a {display: none !important;}
+    [class*="AppView"] a {display: none !important;}
+    
+    /* Hide image badge SVG icons */
+    [class*="icon"] {display: none !important;}
+    [class*="Icon"] {display: none !important;}
+    
+    /* Extra large overlay to cover entire bottom-right */
+    #branding-blocker {
+        width: 600px !important;
+        height: 150px !important;
+    }
+    
+    /* Second overlay for left side of footer */
+    #branding-blocker-2 {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        width: 400px !important;
+        height: 100px !important;
+        background: #0e1117 !important;
+        z-index: 999999 !important;
+        pointer-events: none !important;
+    }
+    
+    /* Full width bottom cover */
+    #branding-blocker-full {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 80px !important;
+        background: #0e1117 !important;
+        z-index: 999998 !important;
+        pointer-events: none !important;
+    }
 </style>
 
 <script>
@@ -195,6 +272,28 @@ st.markdown("""
             var attrValue = el.getAttribute('aria-label') || '';
             var titleValue = el.getAttribute('title') || '';
             var className = el.className || '';
+            var href = el.getAttribute('href') || '';
+            var tagName = el.tagName || '';
+            
+            // HIDE ANY ANCHOR WITH STREAMLILT/HOSTED/CREATED IN HREF
+            if (tagName === 'A') {
+                if (href.toLowerCase().includes('streamlit') || 
+                    href.toLowerCase().includes('hosted') || 
+                    href.toLowerCase().includes('created') ||
+                    href.toLowerCase().includes('streamlit.cloud') ||
+                    className.toLowerCase().includes('badge') ||
+                    className.toLowerCase().includes('link')) {
+                    el.style.display = 'none';
+                    el.style.visibility = 'hidden';
+                    el.style.opacity = '0';
+                    el.style.height = '0';
+                    el.style.width = '0';
+                    // Also hide parent elements
+                    if (el.parentElement) {
+                        el.parentElement.style.display = 'none';
+                    }
+                }
+            }
             
             // Check for branding text
             if (textLower.includes('hosted by') || textLower.includes('created by') || 
@@ -217,7 +316,8 @@ st.markdown("""
             // Check attributes
             if (attrValue.toLowerCase().includes('hosted') || attrValue.toLowerCase().includes('created') ||
                 titleValue.toLowerCase().includes('hosted') || titleValue.toLowerCase().includes('created') ||
-                className.toLowerCase().includes('footer') || className.toLowerCase().includes('bottom')) {
+                className.toLowerCase().includes('footer') || className.toLowerCase().includes('bottom') ||
+                className.toLowerCase().includes('badge')) {
                 el.style.display = 'none';
                 el.style.visibility = 'hidden';
                 el.style.opacity = '0';
@@ -253,7 +353,17 @@ st.markdown("""
             '[aria-label*="hosted"]',
             '[aria-label*="created"]',
             '[title*="hosted"]',
-            '[title*="created"]'
+            '[title*="created"]',
+            'a[href*="streamlit"]',
+            'a[href*="streamlit.cloud"]',
+            'a[href*="Hosted"]',
+            'a[href*="Created"]',
+            'a[class*="badge"]',
+            'a[class*="Badge"]',
+            '[class*="badge-container"]',
+            '[class*="BadgeContainer"]',
+            '[class*="footerActions"]',
+            '[data-testid*="badge"]'
         ];
         
         selectors.forEach(function(sel) {
@@ -265,6 +375,10 @@ st.markdown("""
                     e.style.opacity = '0';
                     e.style.height = '0';
                     e.style.width = '0';
+                    // Also remove from DOM
+                    if (e.parentElement && sel.startsWith('a[')) {
+                        e.parentElement.style.display = 'none';
+                    }
                 });
             } catch(err) {}
         });
@@ -272,12 +386,25 @@ st.markdown("""
         // Hide Streamlit Cloud footer specifically
         var appView = document.querySelector('[class*="StyledAppView"]');
         if (appView) {
-            var footerElements = appView.querySelectorAll('footer, [class*="Footer"], [class*="footer"]');
+            var footerElements = appView.querySelectorAll('footer, [class*="Footer"], [class*="footer"], a[href]');
             footerElements.forEach(function(e) {
                 e.style.display = 'none';
                 e.style.visibility = 'hidden';
             });
         }
+        
+        // Specifically target badge container
+        var badgeContainers = document.querySelectorAll('[class*="badge"], [class*="Badges"]');
+        badgeContainers.forEach(function(bc) {
+            bc.style.display = 'none';
+            bc.style.visibility = 'hidden';
+            bc.style.opacity = '0';
+            bc.style.height = '0';
+            bc.style.width = '0';
+            if (bc.parentElement) {
+                bc.parentElement.style.display = 'none';
+            }
+        });
     }
     
     // Run immediately
