@@ -12,20 +12,25 @@ st.set_page_config(
     menu_items=None
 )
 
-# Hide Streamlit branding with custom CSS + JavaScript - MAXIMUM aggressive
+# Hide Streamlit branding with custom CSS + JavaScript - EXTREME aggressive
 st.markdown("""
 <style>
-    /* Hide main menu and three dots */
+    /* Hide main menu and three dots - EXTREME aggressive */
     #MainMenu {visibility: hidden !important; display: none !important;}
     [data-testid="stMainMenu"] {visibility: hidden !important; display: none !important;}
+    button[aria-label="Main menu"] {display: none !important;}
+    [title="Main menu"] {display: none !important;}
     
-    /* Hide header toolbar with three dots */
+    /* Hide header toolbar with three dots - EXTREME aggressive */
     header {visibility: hidden !important; display: none !important;}
     [data-testid="stHeader"] {visibility: hidden !important; display: none !important;}
     .stHeader {visibility: hidden !important; display: none !important;}
     [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
     .stToolbar {visibility: hidden !important; display: none !important;}
     div[data-testid="stToolbar"] {display: none !important;}
+    [data-testid="stToolbar"] {display: none !important;}
+    .stToolbar [role="button"] {display: none !important;}
+    button[data-testid="stToolbar"] {display: none !important;}
     
     /* Hide deploy button and GitHub fork badge */
     .stDeployButton {display: none !important;}
@@ -36,7 +41,7 @@ st.markdown("""
     /* Hide mode toolbar */
     [data-testid="stModeToolbar"] {display: none !important;}
     
-    /* Hide bottom bar - hosted by, created by - MAXIMUM aggressive */
+    /* Hide bottom bar - hosted by, created by - EXTREME aggressive */
     .stBottomBar {display: none !important;}
     [data-testid="stBottomBar"] {display: none !important;}
     [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
@@ -45,7 +50,7 @@ st.markdown("""
     footer:after {display: none !important;}
     footer:before {display: none !important;}
     
-    /* Hide specific footer text - hosted by, created by - ULTRA aggressive */
+    /* Hide specific footer text - hosted by, created by - EXTREME aggressive */
     [data-testid="stFooterContent"] {display: none !important;}
     .stFooterContent {display: none !important;}
     div[class*="st-"] > footer {display: none !important;}
@@ -105,20 +110,61 @@ st.markdown("""
     .st-afkvqh {display: none !important;}
     .st-bkvqj {display: none !important;}
     [data-testid="stFooterContainer"] {display: none !important;}
+    
+    /* Hide any span containing text */
+    span:contains("Hosted"), span:contains("hosted"), span:contains("Created"), span:contains("created") {display: none !important;}
+    
+    /* Hide by data attribute */
+    [data-testid*="footer"] {display: none !important;}
+    [data-testid*="bottom"] {display: none !important;}
+    [data-testid*="deploy"] {display: none !important;}
+    [data-testid*="menu"] {display: none !important;}
+    
+    /* Hide specific Streamlit Cloud footer structure */
+    div[class*="StyledAppView"] footer {display: none !important;}
+    div[class*="StyledAppView"] [class*="Footer"] {display: none !important;}
+    
+    /* Nuclear option: hide last child of body that might contain branding */
+    body > div:last-child {display: none !important;}
+    
+    /* Hide any element containing specific text via CSS */
+    [class*="footer"] {display: none !important;}
+    [class*="Footer"] {display: none !important;}
+    [class*="bottom"] {display: none !important;}
+    [class*="Bottom"] {display: none !important;}
+    [class*="deploy"] {display: none !important;}
+    [class*="Deploy"] {display: none !important;}
 </style>
 
 <script>
 (function() {
     function hideBranding() {
+        // Hide by text content - more aggressive
         var allElements = document.querySelectorAll('*');
         allElements.forEach(function(el) {
             var text = el.textContent.toLowerCase();
-            if (text.includes('hosted by') || text.includes('created by')) {
+            var attrValue = el.getAttribute('aria-label') || '';
+            var titleValue = el.getAttribute('title') || '';
+            
+            if (text.includes('hosted by') || text.includes('created by') || 
+                text.includes('hosted') || text.includes('created') ||
+                attrValue.toLowerCase().includes('hosted') || attrValue.toLowerCase().includes('created') ||
+                titleValue.toLowerCase().includes('hosted') || titleValue.toLowerCase().includes('created')) {
                 el.style.display = 'none';
                 el.style.visibility = 'hidden';
+                el.style.opacity = '0';
+                el.style.height = '0';
+                el.style.width = '0';
+                el.style.overflow = 'hidden';
+            }
+            
+            // Also hide buttons with menu in aria-label
+            if (el.tagName === 'BUTTON' && (attrValue.toLowerCase().includes('menu') || titleValue.toLowerCase().includes('menu'))) {
+                el.style.display = 'none';
             }
         });
         
+        // Hide by selectors - more aggressive
         var selectors = [
             '[data-testid="stFooter"]',
             '[data-testid="stFooterContent"]',
@@ -127,7 +173,16 @@ st.markdown("""
             '.stFooterContent',
             'footer',
             '.stDeployButton',
-            '[data-testid="stDeployButton"]'
+            '[data-testid="stDeployButton"]',
+            '[data-testid="stMainMenu"]',
+            '#MainMenu',
+            '[data-testid="stToolbar"]',
+            '[aria-label*="menu"]',
+            '[title*="menu"]',
+            '[aria-label*="Hosted"]',
+            '[aria-label*="Created"]',
+            '[title*="Hosted"]',
+            '[title*="Created"]'
         ];
         
         selectors.forEach(function(sel) {
@@ -135,15 +190,34 @@ st.markdown("""
             els.forEach(function(e) {
                 e.style.display = 'none';
                 e.style.visibility = 'hidden';
+                e.style.opacity = '0';
+                e.style.height = '0';
+                e.style.width = '0';
             });
+        });
+        
+        // Hide parent elements of branding text
+        allElements.forEach(function(el) {
+            var text = el.textContent.toLowerCase();
+            if (text.includes('hosted by') || text.includes('created by')) {
+                // Hide parent chain
+                var parent = el.parentElement;
+                while (parent) {
+                    parent.style.display = 'none';
+                    parent = parent.parentElement;
+                }
+            }
         });
     }
     
     hideBranding();
-    setInterval(hideBranding, 500);
+    setInterval(hideBranding, 100);
     
     var observer = new MutationObserver(hideBranding);
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
+    
+    // Also observe document head for style changes
+    observer.observe(document.head, { childList: true, subtree: true });
 })();
 </script>
 """, unsafe_allow_html=True)
