@@ -86,6 +86,40 @@ st.markdown("""
     div[class*="footer"] {display: none !important;}
     div[class*="Bottom"] {display: none !important;}
     div[class*="bottom"] {display: none !important;}
+    
+    /* EXTREME: Hide Streamlit Cloud avatar image */
+    [class*="_profileImage"] {display: none !important; visibility: hidden !important;}
+    img[alt="App Creator Avatar"] {display: none !important; visibility: hidden !important;}
+    img[data-testid="appCreatorAvatar"] {display: none !important; visibility: hidden !important;}
+    
+    /* Hide Streamlit logo SVG */
+    svg[data-testid="streamlitLogo"] {display: none !important; visibility: hidden !important;}
+    [class*="StreamlitLogo"] {display: none !important; visibility: hidden !important;}
+    
+    /* Hide the entire footer container by all known selectors */
+    [class*="StyledAppView"] footer {display: none !important;}
+    [class*="AppView"] [class*="Footer"] {display: none !important;}
+    
+    /* Hide by data-testid patterns */
+    [data-testid^="st-"] {display: none !important;}
+    [data-testid*="footer"] {display: none !important;}
+    [data-testid*="bottom"] {display: none !important;}
+    
+    /* Hide elements with specific class patterns from Streamlit Cloud */
+    [class^="_"] [class*="Footer"] {display: none !important;}
+    [class^="_"] [class*="footer"] {display: none !important;}
+    [class^="_"] [class*="Bottom"] {display: none !important;}
+    [class^="_"] [class*="bottom"] {display: none !important;}
+    
+    /* Hide any SVG in footer area */
+    footer svg {display: none !important;}
+    [class*="Footer"] svg {display: none !important;}
+    [class*="Bottom"] svg {display: none !important;}
+    
+    /* Hide image elements in footer */
+    footer img {display: none !important;}
+    [class*="Footer"] img {display: none !important;}
+    [class*="Bottom"] img {display: none !important;}
 </style>
 
 <script>
