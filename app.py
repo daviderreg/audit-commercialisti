@@ -158,6 +158,29 @@ st.markdown("""
     .stExpander * {
         font-size: 16px !important;
     }
+    
+    /* PHYSICAL OVERLAY - covers bottom-right corner */
+    #branding-blocker {
+        position: fixed !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        width: 500px !important;
+        height: 100px !important;
+        background: #0e1117 !important;
+        z-index: 999999 !important;
+        pointer-events: none !important;
+    }
+    
+    /* Extra coverage for Streamlit Cloud footer */
+    [class*="StyledAppView"] {
+        overflow: hidden !important;
+    }
+    
+    /* Hide any element containing footer text */
+    [class*="footerText"] {display: none !important;}
+    [class*="FooterText"] {display: none !important;}
+    [class*="creatorInfo"] {display: none !important;}
+    [class*="CreatorInfo"] {display: none !important;}
 </style>
 
 <script>
