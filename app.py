@@ -68,10 +68,6 @@ try:
     #root > div > div > div > div > div > a[href*="streamlit"] {display: none !important;}
     .stApp > footer {display: none !important;}
     
-    /* Hide top banner container */
-    #root > div > div > div:first-child {
-        display: none !important;
-    }
     </style>
     """)
 except AttributeError:
@@ -128,11 +124,6 @@ except AttributeError:
     /* Extra selectors for Streamlit Cloud branding */
     #root > div > div > div > div > div > a[href*="streamlit"] {display: none !important;}
     .stApp > footer {display: none !important;}
-    
-    /* Hide top banner container */
-    #root > div > div > div:first-child {
-        display: none !important;
-    }
     </style>
     """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
