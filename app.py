@@ -12,9 +12,26 @@ st.set_page_config(
     menu_items=None
 )
 
-# Hide Streamlit branding - Comprehensive method
-hide_streamlit_style = """
+# Hide Streamlit branding - Aggressive method with early injection
+# Use st.html for faster CSS injection (Streamlit >= 1.30)
+try:
+    st.html("""
     <style>
+    /* Hide GitHub banner and Streamlit Cloud header immediately */
+    #root > div > div > div > a[href*="github"], 
+    #root > div > div > a[href*="github"],
+    #root > div > a[href*="github"],
+    [data-testid="github-banner"],
+    .github-banner,
+    #github-banner,
+    a[href*="github.com"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+    
     /* Hide main menu */
     #MainMenu {visibility: hidden !important; display: none !important;}
     
@@ -50,9 +67,75 @@ hide_streamlit_style = """
     /* Extra selectors for Streamlit Cloud branding */
     #root > div > div > div > div > div > a[href*="streamlit"] {display: none !important;}
     .stApp > footer {display: none !important;}
+    
+    /* Hide top banner container */
+    #root > div > div > div:first-child {
+        display: none !important;
+    }
     </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    """)
+except AttributeError:
+    # Fallback for older Streamlit versions
+    hide_streamlit_style = """
+    <style>
+    /* Hide GitHub banner and Streamlit Cloud header immediately */
+    #root > div > div > div > a[href*="github"], 
+    #root > div > div > a[href*="github"],
+    #root > div > a[href*="github"],
+    [data-testid="github-banner"],
+    .github-banner,
+    #github-banner,
+    a[href*="github.com"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+    
+    /* Hide main menu */
+    #MainMenu {visibility: hidden !important; display: none !important;}
+    
+    /* Hide header */
+    header {visibility: hidden !important; display: none !important;}
+    [data-testid="stHeader"] {visibility: hidden !important; display: none !important;}
+    
+    /* Hide toolbar */
+    [data-testid="stToolbar"] {visibility: hidden !important; display: none !important;}
+    
+    /* Hide deploy button */
+    [data-testid="stDeployButton"] {visibility: hidden !important; display: none !important;}
+    .stDeployButton {visibility: hidden !important; display: none !important;}
+    
+    /* Hide footer completely */
+    footer {visibility: hidden !important; display: none !important;}
+    footer *, footer **a, footer **div, footer **span {visibility: hidden !important; display: none !important;}
+    [data-testid="stFooter"] {visibility: hidden !important; display: none !important;}
+    
+    /* Hide "Made with Streamlit" text and link */
+    .streamlit-app-footer {display: none !important;}
+    a[href*="streamlit"], a[href*="streamlit.cloud"] {display: none !important; visibility: hidden !important;}
+    
+    /* Hide badges */
+    [class*="badge"], [class*="Badge"] {display: none !important;}
+    
+    /* Hide viewer badge */
+    .viewer-badge {display: none !important;}
+    
+    /* Hide all elements containing "streamlit" */
+    [data-testid*="streamlit"] {display: none !important;}
+    
+    /* Extra selectors for Streamlit Cloud branding */
+    #root > div > div > div > div > div > a[href*="streamlit"] {display: none !important;}
+    .stApp > footer {display: none !important;}
+    
+    /* Hide top banner container */
+    #root > div > div > div:first-child {
+        display: none !important;
+    }
+    </style>
+    """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # GDPR Header
 st.markdown("""
